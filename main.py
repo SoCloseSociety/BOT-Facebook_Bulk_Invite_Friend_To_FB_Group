@@ -33,7 +33,9 @@ driver.get("https://www.facebook.com/")
 time.sleep(20)
 
 choose = input("Enter \"y\" after logging in : ")
-limit_to_sent_invitation = input("Enter limit  to send  invitation(100/200/500...) : ")
+#######
+limit_to_sent_invitation = 500
+#######
 
 if choose == "y":
     html = driver.page_source
