@@ -33,6 +33,7 @@ driver.get("https://www.facebook.com/")
 time.sleep(20)
 
 choose = input("Enter \"y\" after logging in : ")
+limit_to_sent_invitation = input("Enter limit  to send  invitation(100/200/500...) : ")
 
 if choose == "y":
     html = driver.page_source
@@ -45,26 +46,33 @@ if choose == "y":
     i = 0
 
     while i < length_friends:
-        targeted_friend = invite_friends_list_first_item[i]
+        try:
+            targeted_friend = invite_friends_list_first_item[i]
 
-        if targeted_friend.find("image"):
-            element = driver.find_element(By.XPATH, xpath_soup(targeted_friend))
-            driver.execute_script("arguments[0].scrollIntoView()", element)
+            if targeted_friend.find("image"):
+                element = driver.find_element(By.XPATH, xpath_soup(targeted_friend))
+                driver.execute_script("arguments[0].scrollIntoView()", element)
 
-            driver.find_element(By.XPATH, xpath_soup(targeted_friend)).click()
+                driver.find_element(By.XPATH, xpath_soup(targeted_friend)).click()
 
-            i = i + 1
-            time.sleep(1)
-            html = driver.page_source
-            soup = BeautifulSoup(html, features="html.parser")
-            invite_friends_dialogue = soup.find("div", attrs={"role": "dialog"})
-            invite_friends_list_first_item = invite_friends_dialogue.find_all("div", attrs={
-                "data-visualcompletion": "ignore-dynamic"})
+                if i+1 == limit_to_sent_invitation:
+                    break
 
-            length_friends = len(invite_friends_list_first_item)
-            print(length_friends)
-            print("=====================================")
-        else:
+                i = i + 1
+                time.sleep(1)
+                html = driver.page_source
+                soup = BeautifulSoup(html, features="html.parser")
+                invite_friends_dialogue = soup.find("div", attrs={"role": "dialog"})
+                invite_friends_list_first_item = invite_friends_dialogue.find_all("div", attrs={
+                    "data-visualcompletion": "ignore-dynamic"})
+
+                length_friends = len(invite_friends_list_first_item)
+                print(length_friends)
+                print("=====================================")
+
+            else:
+                break
+        except:
             break
 
     html = driver.page_source
