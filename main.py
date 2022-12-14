@@ -1,5 +1,5 @@
 import time
-from random import random
+import random
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -192,13 +192,44 @@ if choose == "y":
                 print("=====================================")
                 break
 
+
         print("Now")
 
-        if error_occured & now_selected > 0:
+        html = driver.page_source
+        soup = BeautifulSoup(html, features="html.parser")
+        invite_friends_dialogue = soup.find("div", attrs={"aria-label": "Invitez des amis à rejoindre ce groupe"})
+
+        selected_friends = invite_friends_dialogue.find_all("span", attrs={"dir": "auto"})
+
+        for selected_friend in selected_friends:
+            if "AMIS SÉLECTIONNÉS" in selected_friend.text:
+                print(selected_friend.text)
+
+                arr_selected_invite = selected_friend.text.split(" ")
+                number = arr_selected_invite[0]
+                print(number)
+                print("=====================================")
+                break
+
+        now_selected = int(number)
+
+        print("Now selected => "+str(now_selected))
+        if now_selected == 0:
             break
+        # print("now_selected => " + str(now_selected))
+        # print("=====================================")
+        # if error_occured and now_selected == 0:
+        #     print("error_occured and now_selected => " + str(now_selected))
+        #     print("Finished")
+        #     break
+        #
+        # if now_selected == 0:
+        #     print("now_selected => " + str(now_selected))
+        #     print("Finished")
+        #     break
 
         html = driver.page_source
         soup = BeautifulSoup(html, features="html.parser")
         find_all_btns = soup.find("div", attrs={"aria-label": "Envoyer les invitations"})
         driver.find_element(By.XPATH, xpath_soup(find_all_btns)).click()
-        time.sleep(4)
+        time.sleep(6)
