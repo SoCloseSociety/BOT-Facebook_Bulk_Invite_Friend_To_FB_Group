@@ -34,19 +34,8 @@ driver.maximize_window()
 driver.get("https://www.facebook.com/")
 time.sleep(2)
 
-# driver.find_element(By.ID, "email").send_keys("talhaalavi1999@gmail.com")
-# time.sleep(1)
-# driver.find_element(By.ID, "passContainer").click()
-# time.sleep(1)
-# driver.find_element(By.ID, "pass").send_keys("Batpar2020")
-# time.sleep(2)
-# driver.find_element(By.ID, "u_0_c_8y").click()
-# time.sleep(2)
 
-
-# fb_group_link = input("Enter the group link : ")
-
-fb_group_link = "https://www.facebook.com/groups/1223650381391834"
+fb_group_link = input("Enter the group link : ")
 
 choose = input("Enter \"y\" after logging in : ")
 
